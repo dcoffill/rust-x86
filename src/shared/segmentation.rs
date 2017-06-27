@@ -232,7 +232,7 @@ impl SegmentDescriptor {
                 |   descriptor::Flags::from_priv(dpl),
             limit1: limit1,
             limit2_flags: FLAGS_DB
-                | if fine_grained { FLAGS_G } else { Flags::empty() }
+                | if !fine_grained { FLAGS_G } else { Flags::empty() }
                 | Flags::from_limit2(limit2),
         }
     }
@@ -256,7 +256,6 @@ impl Flags {
     pub const BLANK: Flags = Flags { bits: 0 };
 
     pub fn from_limit2(limit2: u8) -> Flags {
-        assert_eq!(limit2 & !0b111, 0);
         Flags { bits: limit2 }
     }
 }
